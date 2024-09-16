@@ -8,6 +8,8 @@ session = Session()
 
 Base = declarative_base()
 
+#Definicao das entidades do banco de dados
+
 class Categoria(Base):
     __tablename__ = 'categorias'
 
@@ -99,6 +101,10 @@ def ler_pedido(id_pedido):
     return session.query(Pedido).filter_by(id_pedido=id_pedido).first()
 
 #Ler todos os registros
+#Exemplo de print:
+#clientes =ler_todos_clientes()
+#for cliente in clientes:
+    #print(cliente)
 
 def ler_todos_clientes():
     return session.query(Cliente).all()
@@ -181,6 +187,7 @@ def excluir_pedido(id_pedido):
         session.delete(pedido)
         session.commit()
 
+#Funcao para printar todas as tabelas
 def consultar_todas_tabelas():
 
     print("Categorias:")
