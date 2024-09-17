@@ -269,3 +269,61 @@ def menu_pedido():
     print("4. Excluir pedido")
     opcao = input("Escolha uma opção: ")
     return opcao
+
+
+def main():
+    while True:
+        opcao = exibir_menu()
+
+        if opcao == '1':  # Categorias
+            escolha = menu_categoria()
+            if escolha == '4':  # Excluir categoria
+                id_categoria = input("Digite o ID da categoria: ")
+                if id_categoria.isdigit():
+                    id_categoria = int(id_categoria)
+                    excluir_categoria(id_categoria)
+                else:
+                    print("ID inválido. Por favor, insira um número inteiro.")
+
+        elif opcao == '2':  # Pratos
+            escolha = menu_prato()
+            if escolha == '4':  # Excluir prato
+                id_prato = input("Digite o ID do prato: ")
+                if id_prato.isdigit():
+                    id_prato = int(id_prato)
+                    excluir_prato(id_prato)
+                else:
+                    print("ID inválido. Por favor, insira um número inteiro.")
+
+        elif opcao == '3':  # Clientes
+            escolha = menu_cliente()
+            if escolha == '4':  # Excluir cliente
+                id_cliente = input("Digite o ID do cliente: ")
+                if id_cliente.isdigit():
+                    id_cliente = int(id_cliente)
+                    excluir_cliente(id_cliente)
+                else:
+                    print("ID inválido. Por favor, insira um número inteiro.")
+
+        elif opcao == '4':  # Pedidos
+            escolha = menu_pedido()
+            if escolha == '4':  # Excluir pedido
+                id_pedido = input("Digite o ID do pedido: ")
+                if id_pedido.isdigit():
+                    id_pedido = int(id_pedido)
+                    excluir_pedido(id_pedido)
+                else:
+                    print("ID inválido. Por favor, insira um número inteiro.")
+
+        elif opcao == '5':  # Consultar todas as tabelas
+            consultar_todas_tabelas()
+
+        elif opcao == '0':  # Sair
+            print("Saindo...")
+            break
+
+        else:
+            print("Opção inválida. Por favor, escolha uma opção válida.")
+
+# Executar o menu principal
+main()
