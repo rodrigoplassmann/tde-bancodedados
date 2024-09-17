@@ -1,11 +1,14 @@
+#Importações SQLAlchemy
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, Date
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from datetime import date
 
+#Criação de engine para banco de dados SQLite e configuração da sessão
 db = create_engine('sqlite:///banco_restaurante.db', echo=False)
 Session = sessionmaker(bind=db)
 session = Session()
 
+#Classe base para definir as tabelas do banco de dados com SQLAlchemy
 Base = declarative_base()
 
 #Definicao das entidades do banco de dados
@@ -16,8 +19,10 @@ class Categoria(Base):
     id_categoria = Column(Integer, primary_key=True, autoincrement=True)
     nome_categoria = Column(String, nullable=False)
 
+    #Relacionamento 1 para N com prato
     pratos = relationship("Prato", back_populates="categoria")
 
+    #Representação da classe de maneira legível
     def __repr__(self):
         return f"<Categoria(id={self.id_categoria}, nome={self.nome_categoria})>"
 
@@ -29,6 +34,7 @@ class Prato(Base):
     preco = Column(Integer, nullable=False)
     id_categoria = Column(Integer, ForeignKey('categorias.id_categoria'))
 
+    #Relacionamento com a categoria
     categoria = relationship("Categoria", back_populates="pratos")
 
     def __repr__(self):
@@ -58,7 +64,10 @@ class Pedido(Base):
     def __repr__(self):
         return f"<Pedido(id={self.id_pedido}, cliente={self.id_cliente}, prato={self.id_prato}, data={self.data_pedido})>"
 
+#Criação das tabelas no banco de dados
 Base.metadata.create_all(bind=db)
+
+#Operações CRUD (Create, Read, Update, Delete)
 
 #Criar
 
@@ -86,7 +95,7 @@ def criar_pedido(id_cliente, id_prato, data_pedido):
     session.commit()
     return novo_pedido
 
-#Ler um registro específico
+#Ler um registro pela ID
 
 def ler_categoria(id_categoria):
     return session.query(Categoria).filter_by(id_categoria=id_categoria).first()
@@ -168,26 +177,39 @@ def excluir_categoria(id_categoria):
     if categoria:
         session.delete(categoria)
         session.commit()
+        print(f"Categoria {id_categoria} excluída com sucesso.")
+    else:
+        print(f"Categoria com ID {id_categoria} não encontrada.")
 
 def excluir_prato(id_prato):
     prato = session.query(Prato).filter_by(id_prato=id_prato).first()
     if prato:
         session.delete(prato)
         session.commit()
+        print(f"Prato {id_prato} excluído com sucesso.")
+    else:
+        print(f"Prato com ID {id_prato} não encontrado.")
 
 def excluir_cliente(id_cliente):
     cliente = session.query(Cliente).filter_by(id_cliente=id_cliente).first()
     if cliente:
         session.delete(cliente)
         session.commit()
+        print(f"Cliente {id_cliente} excluído com sucesso.")
+    else:
+        print(f"Cliente com ID {id_cliente} não encontrado.")
 
 def excluir_pedido(id_pedido):
     pedido = session.query(Pedido).filter_by(id_pedido=id_pedido).first()
     if pedido:
         session.delete(pedido)
         session.commit()
+        print(f"Pedido {id_pedido} excluído com sucesso.")
+    else:
+        print(f"Pedido com ID {id_pedido} não encontrado.")
 
-#Funcao para printar todas as tabelas
+#Função para consultar todas as tabelas
+
 def consultar_todas_tabelas():
 
     print("Categorias:")
@@ -222,6 +244,8 @@ def consultar_todas_tabelas():
                   f"Prato {pedido.prato.nome_prato}, Data {pedido.data_pedido}")
     else:
         print("Nenhum pedido cadastrado.")
+
+#Funções para definir os menus para o usuário
 
 def exibir_menu():
     print("--- MENU PRINCIPAL ---")
@@ -270,14 +294,15 @@ def menu_pedido():
     opcao = input("Escolha uma opção: ")
     return opcao
 
+#Função para o menu principal
 
 def main():
     while True:
         opcao = exibir_menu()
 
-        if opcao == '1':  # Categorias
+        if opcao == '1': #Categorias
             escolha = menu_categoria()
-            if escolha == '4':  # Excluir categoria
+            if escolha == '4': #Excluir categoria
                 id_categoria = input("Digite o ID da categoria: ")
                 if id_categoria.isdigit():
                     id_categoria = int(id_categoria)
@@ -285,9 +310,9 @@ def main():
                 else:
                     print("ID inválido. Por favor, insira um número inteiro.")
 
-        elif opcao == '2':  # Pratos
+        elif opcao == '2': #Pratos
             escolha = menu_prato()
-            if escolha == '4':  # Excluir prato
+            if escolha == '4': #Excluir prato
                 id_prato = input("Digite o ID do prato: ")
                 if id_prato.isdigit():
                     id_prato = int(id_prato)
@@ -295,9 +320,9 @@ def main():
                 else:
                     print("ID inválido. Por favor, insira um número inteiro.")
 
-        elif opcao == '3':  # Clientes
+        elif opcao == '3': #Clientes
             escolha = menu_cliente()
-            if escolha == '4':  # Excluir cliente
+            if escolha == '4': #Excluir cliente
                 id_cliente = input("Digite o ID do cliente: ")
                 if id_cliente.isdigit():
                     id_cliente = int(id_cliente)
@@ -305,9 +330,9 @@ def main():
                 else:
                     print("ID inválido. Por favor, insira um número inteiro.")
 
-        elif opcao == '4':  # Pedidos
+        elif opcao == '4': #Pedidos
             escolha = menu_pedido()
-            if escolha == '4':  # Excluir pedido
+            if escolha == '4': #Excluir pedido
                 id_pedido = input("Digite o ID do pedido: ")
                 if id_pedido.isdigit():
                     id_pedido = int(id_pedido)
@@ -315,11 +340,11 @@ def main():
                 else:
                     print("ID inválido. Por favor, insira um número inteiro.")
 
-        elif opcao == '5':  # Consultar todas as tabelas
+        elif opcao == '5': #Consultar todas as tabelas
             consultar_todas_tabelas()
 
-        elif opcao == '0':  # Sair
-            print("Saindo...")
+        elif opcao == '0': #Sair
+            print("Saindo")
             break
 
         else:
