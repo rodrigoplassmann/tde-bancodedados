@@ -222,3 +222,157 @@ def consultar_todas_tabelas():
                   f"Prato {pedido.prato.nome_prato}, Data {pedido.data_pedido}")
     else:
         print("Nenhum pedido cadastrado.")
+
+def exibir_menu():
+    print("\n--- MENU PRINCIPAL ---")
+    print("1. Categorias")
+    print("2. Pratos")
+    print("3. Clientes")
+    print("4. Pedidos")
+    print("5. Consultar todas as tabelas")
+    print("0. Sair")
+    return input("Escolha uma opção: ")
+
+def menu_categoria():
+    print("\n--- MENU CATEGORIAS ---")
+    print("1. Criar categoria")
+    print("2. Ler categoria")
+    print("3. Atualizar categoria")
+    print("4. Excluir categoria")
+    return input("Escolha uma opção: ")
+
+def menu_prato():
+    print("\n--- MENU PRATOS ---")
+    print("1. Criar prato")
+    print("2. Ler prato")
+    print("3. Atualizar prato")
+    print("4. Excluir prato")
+    return input("Escolha uma opção: ")
+
+def menu_cliente():
+    print("\n--- MENU CLIENTES ---")
+    print("1. Criar cliente")
+    print("2. Ler cliente")
+    print("3. Atualizar cliente")
+    print("4. Excluir cliente")
+    return input("Escolha uma opção: ")
+
+def menu_pedido():
+    print("\n--- MENU PEDIDOS ---")
+    print("1. Criar pedido")
+    print("2. Ler pedido")
+    print("3. Atualizar pedido")
+    print("4. Excluir pedido")
+    return input("Escolha uma opção: ")
+
+def main():
+    while True:
+        opcao = exibir_menu()
+
+        if opcao == '1':  # Categorias
+            escolha = menu_categoria()
+            if escolha == '1':
+                nome_categoria = input("Digite o nome da categoria: ")
+                criar_categoria(nome_categoria)
+                print("Categoria criada com sucesso!")
+            elif escolha == '2':
+                id_categoria = int(input("Digite o ID da categoria: "))
+                categoria = ler_categoria(id_categoria)
+                print(categoria if categoria else "Categoria não encontrada.")
+            elif escolha == '3':
+                id_categoria = int(input("Digite o ID da categoria: "))
+                nome_categoria = input("Digite o novo nome da categoria: ")
+                atualizar_categoria(id_categoria, nome_categoria)
+                print("Categoria atualizada com sucesso!")
+            elif escolha == '4':
+                id_categoria = int(input("Digite o ID da categoria: "))
+                excluir_categoria(id_categoria)
+                print("Categoria excluída com sucesso!")
+        
+        elif opcao == '2':  # Pratos
+            escolha = menu_prato()
+            if escolha == '1':
+                nome_prato = input("Digite o nome do prato: ")
+                preco = int(input("Digite o preço do prato: "))
+                id_categoria = int(input("Digite o ID da categoria: "))
+                criar_prato(nome_prato, preco, id_categoria)
+                print("Prato criado com sucesso!")
+            elif escolha == '2':
+                id_prato = int(input("Digite o ID do prato: "))
+                prato = ler_prato(id_prato)
+                print(prato if prato else "Prato não encontrado.")
+            elif escolha == '3':
+                id_prato = int(input("Digite o ID do prato: "))
+                nome_prato = input("Digite o novo nome do prato: ")
+                preco = input("Digite o novo preço do prato: ")
+                preco = int(preco) if preco else None
+                id_categoria = input("Digite o novo ID da categoria: ")
+                id_categoria = int(id_categoria) if id_categoria else None
+                atualizar_prato(id_prato, nome_prato, preco, id_categoria)
+                print("Prato atualizado com sucesso!")
+            elif escolha == '4':
+                id_prato = int(input("Digite o ID do prato: "))
+                excluir_prato(id_prato)
+                print("Prato excluído com sucesso!")
+        
+        elif opcao == '3':  # Clientes
+            escolha = menu_cliente()
+            if escolha == '1':
+                nome_cliente = input("Digite o nome do cliente: ")
+                telefone = input("Digite o telefone do cliente: ")
+                criar_cliente(nome_cliente, telefone)
+                print("Cliente criado com sucesso!")
+            elif escolha == '2':
+                id_cliente = int(input("Digite o ID do cliente: "))
+                cliente = ler_cliente(id_cliente)
+                print(cliente if cliente else "Cliente não encontrado.")
+            elif escolha == '3':
+                id_cliente = int(input("Digite o ID do cliente: "))
+                nome_cliente = input("Digite o novo nome do cliente: ")
+                telefone = input("Digite o novo telefone do cliente: ")
+                atualizar_cliente(id_cliente, nome_cliente, telefone)
+                print("Cliente atualizado com sucesso!")
+            elif escolha == '4':
+                id_cliente = int(input("Digite o ID do cliente: "))
+                excluir_cliente(id_cliente)
+                print("Cliente excluído com sucesso!")
+        
+        elif opcao == '4':  # Pedidos
+            escolha = menu_pedido()
+            if escolha == '1':
+                id_cliente = int(input("Digite o ID do cliente: "))
+                id_prato = int(input("Digite o ID do prato: "))
+                data_pedido = date.today()
+                criar_pedido(id_cliente, id_prato, data_pedido)
+                print("Pedido criado com sucesso!")
+            elif escolha == '2':
+                id_pedido = int(input("Digite o ID do pedido: "))
+                pedido = ler_pedido(id_pedido)
+                print(pedido if pedido else "Pedido não encontrado.")
+            elif escolha == '3':
+                id_pedido = int(input("Digite o ID do pedido: "))
+                id_cliente = input("Digite o novo ID do cliente: ")
+                id_cliente = int(id_cliente) if id_cliente else None
+                id_prato = input("Digite o novo ID do prato: ")
+                id_prato = int(id_prato) if id_prato else None
+                data_pedido = input("Digite a nova data do pedido (AAAA-MM-DD): ")
+                data_pedido = date.fromisoformat(data_pedido) if data_pedido else None
+                atualizar_pedido(id_pedido, id_cliente, id_prato, data_pedido)
+                print("Pedido atualizado com sucesso!")
+            elif escolha == '4':
+                id_pedido = int(input("Digite o ID do pedido: "))
+                excluir_pedido(id_pedido)
+                print("Pedido excluído com sucesso!")
+
+        elif opcao == '5':  # Consultar todas as tabelas
+            consultar_todas_tabelas()
+
+        elif opcao == '0':  # Sair
+            print("Saindo do sistema...")
+            break
+
+        else:
+            print("Opção inválida, tente novamente.")
+
+if __name__ == '__main__':
+    main()
