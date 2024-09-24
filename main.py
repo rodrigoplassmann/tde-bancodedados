@@ -386,7 +386,7 @@ def main():
             if escolha == '1': #Criar pedido
                 id_cliente = input("Digite o ID do cliente: ")
                 id_prato = input("Digite o ID do prato: ")
-                data_pedido = input("Digite a data do pedido (YYYY-MM-DD): ")
+                data_pedido = input("Digite a data do pedido (AAAA-MM-DD): ")
                 criar_pedido(int(id_cliente), int(id_prato), date.fromisoformat(data_pedido))
                 print("Pedido criado com sucesso!")
             elif escolha == '2': #Ler pedido
@@ -397,7 +397,7 @@ def main():
                 id_pedido = input("Digite o ID do pedido a ser atualizado: ")
                 id_cliente = input("Digite o novo ID do cliente (ou deixe vazio para não alterar): ")
                 id_prato = input("Digite o novo ID do prato (ou deixe vazio para não alterar): ")
-                data_pedido = input("Digite a nova data do pedido (YYYY-MM-DD) ou deixe vazio: ")
+                data_pedido = input("Digite a nova data do pedido (AAAA-MM-DD) ou deixe vazio: ")
                 atualizar_pedido(
                     int(id_pedido),
                     int(id_cliente) if id_cliente else None,
